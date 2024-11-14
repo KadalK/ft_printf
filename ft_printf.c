@@ -14,7 +14,7 @@
 
 int	ft_printf(const char *format, ...)
 {
-	int count;
+	long count;
 	va_list	arg;
 
 	va_start(arg, format);
@@ -26,34 +26,69 @@ int	ft_printf(const char *format, ...)
 			format++;
 			if (*format == 'c')
 				count += ft_putchar(va_arg(arg, int));
-			if (*format == '%')
-				return (ft_putchar('%'));
-			if (*format == 's')
-				ft_putstr(va_arg(arg, char*));
-			if (*format == 'd' || *format == 'i')
-				ft_putnbr_base(va_arg(arg, int), "0123456789");
-			if (*format == 'x')
-				ft_putnbr_base(va_arg(arg, int), "0123456789abcdef");
-			if(*format == 'X')
-				ft_putnbr_base(va_arg(arg, int), "0123456789ABCDEF");
-			if (*format == 'u')
-				ft_putnbr_base(va_arg(arg, unsigned int), "0123456789");
-			if (*format == 'p')
+			else if (*format == 's')
+				count += ft_putstr(va_arg(arg, char *));
+			else if (*format == 'd' || *format == 'i')
+				count += ft_putnbr_long_base(va_arg(arg, long ), "0123456789");
+			else if (*format == 'x')
+				count += ft_putnbr_base(va_arg(arg, int), "0123456789abcdef");
+			else if(*format == 'X')
+				count += ft_putnbr_base(va_arg(arg, int), "0123456789ABCDEF");
+			else if (*format == 'u')
+				count += ft_putnbr_base(va_arg(arg, unsigned int), "0123456789");
+			else if (*format == 'p')
 			{
-				ft_putstr("0x");
-				ft_putnbr_base(va_arg(arg, int), "0123456789abcdef");
+				count += ft_putstr("0x");
+				count += ft_putnbr_long_base(va_arg(arg, long), "0123456789abcdef");
 			}
+			else
+				count += (ft_putchar('%'));
+
 		}
+		else
+			count += ft_putchar(*format);
 		format++;
 	}
 	va_end(arg);
-	return (count);
+	return ((int)count);
 }
-
+/*
 #include <stdio.h>
-int	main()
+
+int	main(void)
 {
-	ft_printf("%d\nft_print", 1234);
-	printf("%d\nprint", 1234);
+	ft_printf("-----[MA FONCTION]-----\n");
+	ft_printf("String test: %s%s\n", "AIH", "GERG");
+	ft_printf("Character test: %c\n", 'A');
+	ft_printf("Decimal test: %d\n", 42);
+	ft_printf("Hexadecimal (lowercase) test: %x\n", 255);
+	ft_printf("Hexadecimal (uppercase) test: %X\n", 255);
+	ft_printf("Unsigned test: %u\n", 42);
+	ft_printf("Pointer test: %p\n", &main);
+	ft_printf("Percentage test: %%\n");
+	ft_printf("");
+	ft_printf("\n");
+	ft_printf("caca");
+	ft_printf("\n");
+	ft_printf("%c", "-45");
+	ft_printf("\n");
+	ft_printf("%d", INT_MAX);
+	ft_printf("\n");
+	ft_printf("%d", INT_MIN);
+	ft_printf("\n");
+	ft_printf("%");
+	ft_printf("\n");
+
+
+
+	printf("\n-----[LA VRAI FONCTION]-----\n");
+	printf("String test: %s%s\n", "AIH", "GERG");
+	printf("Character test: %c\n", 'A');
+	printf("Decimal test: %d\n", 42);
+	printf("Hexadecimal (lowercase) test: %x\n", 255);
+	printf("Hexadecimal (uppercase) test: %X\n", 255);
+	printf("Unsigned test: %u\n", 42);
+	printf("Pointer test: %p\n", &main);
+	printf("Percentage test: %%\n");
 	return (0);
-}
+}*/

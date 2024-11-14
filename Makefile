@@ -15,8 +15,9 @@ OBJ_D = obj/
 
 CFLAGS = -Wall -Wextra -Werror
 
-$(OBJ_D)%.o:	%.c $(HEADER) | $(OBJ_D)
-		$(CC) $(CFLAGS) -I$(HEAD_D) -c $< -o $@
+
+$(OBJ_D)%.o: %.c $(HEADER) | $(OBJ_D)
+	$(CC) $(CFLAGS) -I$(HEADER_D) -c $< -o $@
 
 all:	$(NAME)
 
